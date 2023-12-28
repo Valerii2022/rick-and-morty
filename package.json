@@ -8,7 +8,16 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "homepage": "https://github.com/Valerii2022/rick-and-morty",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Valerii2022/rick-and-morty.git"
+  },
+  "author": "Valerii <vmpometun@gmail.comL>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Valerii2022/rick-and-morty/issues"
+  },
+  "homepage": "https://github.com/Valerii2022/rick-and-morty#readme",
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
