@@ -1,8 +1,48 @@
-.main {
+.header,
+.footer {
+  padding: 15px;
+  box-shadow: var(--box-shadow);
+}
+
+.navigation {
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
-  min-height: 100vh;
+}
+
+.list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.item {
+  transition: transform var(--transition), color var(--transition);
+}
+
+.item:hover {
+  transform: scale(1.1);
+  color: var(--hover-color);
+}
+
+.inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerText {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
