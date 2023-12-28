@@ -28,6 +28,7 @@ body {
   flex-direction: column;
   color: var(--main-color);
   background-color: var(--main-bg-color);
+  font-size: 18px;
 }
 
 a {

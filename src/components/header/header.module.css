@@ -1,0 +1,29 @@
+.header {
+  padding: 15px;
+  box-shadow: var(--box-shadow);
+}
+
+.navigation {
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.item {
+  transition: transform var(--transition), color var(--transition);
+}
+
+.item:hover {
+  transform: scale(1.1);
+  color: var(--hover-color);
+}

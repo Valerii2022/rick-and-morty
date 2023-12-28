@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { Irish_Grover } from "next/font/google";
-import styles from "./page.module.css";
 import "./globals.css";
+import Footer from "@/components/footer/footer";
+import Header from "@/components/header/header";
 
 const irish = Irish_Grover({
   subsets: ["latin"],
@@ -24,45 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={irish.className}>
-        <header className={styles.header}>
-          <nav className={styles.navigation}>
-            <Link href="/">
-              <Image
-                src="/favicon.png"
-                width={46}
-                height={46}
-                alt="Rick and Morty logo"
-                priority={true}
-              />
-            </Link>
-
-            <ul className={styles.list}>
-              <li className={styles.item}>
-                <Link href="/character">Character</Link>
-              </li>
-              <li className={styles.item}>
-                <Link href="/location">Location</Link>
-              </li>
-              <li className={styles.item}>
-                <Link href="/episode">Episode</Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
+        <Header />
         {children}
-        <footer className={styles.footer}>
-          <p className={styles.footerText}>
-            <span>Make with</span>
-            <Image
-              src="/heart.svg"
-              width={16}
-              height={16}
-              alt="Rick and Morty logo"
-              priority={true}
-            ></Image>{" "}
-            <span>for the MobProgramming team</span>
-          </p>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
