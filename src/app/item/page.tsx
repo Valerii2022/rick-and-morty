@@ -1,4 +1,3 @@
-export default function Item(id: number): JSX.Element {
-  console.log(id);
+export default function Item(): JSX.Element {
   return <h2>Item page</h2>;
 }
