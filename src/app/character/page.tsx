@@ -7,9 +7,10 @@ import Link from "next/link";
 
 export default function Character(): JSX.Element {
   const [personageData, setPersonageData] = useState([]);
-  const [species, setSpecies] = useState("");
-  const [gender, setGender] = useState("");
-  const [status, setStatus] = useState("");
+  // const [filter, setFilter] = useState("");
+  // const [species, setSpecies] = useState("");
+  // const [gender, setGender] = useState("");
+  // const [status, setStatus] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -21,27 +22,27 @@ export default function Character(): JSX.Element {
           return response.json();
         })
         .then((data) => {
-          let result = data;
-          if (species) {
-            result = data.filter(
-              (el: { species: string }) => el.species === species
-            );
-          }
-          if (gender) {
-            result = data.filter(
-              (el: { gender: string }) => el.gender === gender
-            );
-          }
-          if (status) {
-            result = data.filter(
-              (el: { status: string }) => el.status === status
-            );
-          }
-          setPersonageData(result);
+          // let result = data;
+          // if (species) {
+          //   result = data.filter(
+          //     (el: { species: string }) => el.species === species
+          //   );
+          // }
+          // if (gender) {
+          //   result = data.filter(
+          //     (el: { gender: string }) => el.gender === gender
+          //   );
+          // }
+          // if (status) {
+          //   result = data.filter(
+          //     (el: { status: string }) => el.status === status
+          //   );
+          // }
+          setPersonageData(data.results);
         })
         .catch((error) => console.log(error));
     })();
-  }, [gender, status, species]);
+  }, []);
 
   return (
     <div className="wrapper">
