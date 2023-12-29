@@ -43,10 +43,6 @@
   line-height: 1.18;
 }
 
-.hidden {
-  display: none;
-}
-
 .personList {
   display: flex;
   flex-wrap: wrap;

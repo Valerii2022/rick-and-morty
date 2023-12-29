@@ -7,10 +7,10 @@ import Link from "next/link";
 
 export default function Character(): JSX.Element {
   const [personageData, setPersonageData] = useState([]);
-  // const [filter, setFilter] = useState("");
-  // const [species, setSpecies] = useState("");
-  // const [gender, setGender] = useState("");
-  // const [status, setStatus] = useState("");
+  const [filter, setFilter] = useState("");
+  const [species, setSpecies] = useState("");
+  const [gender, setGender] = useState("");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -22,27 +22,36 @@ export default function Character(): JSX.Element {
           return response.json();
         })
         .then((data) => {
-          // let result = data;
-          // if (species) {
-          //   result = data.filter(
-          //     (el: { species: string }) => el.species === species
-          //   );
-          // }
-          // if (gender) {
-          //   result = data.filter(
-          //     (el: { gender: string }) => el.gender === gender
-          //   );
-          // }
-          // if (status) {
-          //   result = data.filter(
-          //     (el: { status: string }) => el.status === status
-          //   );
-          // }
-          setPersonageData(data.results);
+          let result = data.results;
+          result = data.results
+            .filter((el: { name: string }) => el.name.includes(filter))
+            .filter((el: { species: string }) => {
+              if (species) {
+                return el.species === species;
+              } else {
+                return el.species;
+              }
+            })
+            .filter((el: { gender: string }) => {
+              if (gender) {
+                return el.gender === gender;
+              } else {
+                return el.gender;
+              }
+            })
+            .filter((el: { status: string }) => {
+              if (status) {
+                return el.status === status;
+              } else {
+                return el.status;
+              }
+            });
+
+          setPersonageData(result);
         })
         .catch((error) => console.log(error));
     })();
-  }, []);
+  }, [gender, species, status, filter]);
 
   return (
     <div className="wrapper">
@@ -66,6 +75,10 @@ export default function Character(): JSX.Element {
               priority={true}
             />
             <input
+              value={filter}
+              onChange={(e) => {
+                setFilter(e.target.value);
+              }}
               type="text"
               name="name"
               id="name"
@@ -75,13 +88,12 @@ export default function Character(): JSX.Element {
         </li>
         <li className={styles.inputItem}>
           <label htmlFor="name">
-            <select name="species" id="name">
-              <option
-                value="Species"
-                className={styles.hidden}
-                selected
-                disabled
-              >
+            <select
+              name="species"
+              id="name"
+              onChange={(e) => setSpecies(e.target.value)}
+            >
+              <option value="Species" selected>
                 Species
               </option>
               <option value="Human">Human</option>
@@ -91,13 +103,12 @@ export default function Character(): JSX.Element {
         </li>
         <li className={styles.inputItem}>
           <label htmlFor="gender">
-            <select name="gender" id="gender">
-              <option
-                value="Gender"
-                className={styles.hidden}
-                selected
-                disabled
-              >
+            <select
+              name="gender"
+              id="gender"
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option value="Gender" selected>
                 Gender
               </option>
               <option value="Male">Male</option>
@@ -107,13 +118,12 @@ export default function Character(): JSX.Element {
         </li>
         <li className={styles.inputItem}>
           <label htmlFor="status">
-            <select name="status" id="status">
-              <option
-                value="Status"
-                className={styles.hidden}
-                selected
-                disabled
-              >
+            <select
+              name="status"
+              id="status"
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="Status" selected>
                 Status
               </option>
               <option value="Alive">Alive</option>
