@@ -42,8 +42,8 @@ ul {
 
 .wrapper {
   flex-grow: 1;
-  padding: 15px;
-  width: 768px;
+  padding: 26px 210px 44px;
+  width: 1440px;
   min-height: 100%;
   margin-left: auto;
   margin-right: auto;
