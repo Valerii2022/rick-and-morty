@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Irish_Grover } from "next/font/google";
 import "./globals.css";
+
+import { Providers } from '../redux/provider';
+
 import Footer from "@/components/footer/footer";
 import Header from "@/components/header/header";
 
@@ -21,12 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={irish.className}>
-        <Header />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <Providers>
+       <html lang="en">
+         <body className={irish.className}>
+           <Header />
+           {children}
+           <Footer />
+         </body>
+       </html>
+    </Providers>
   );
 }

@@ -5,53 +5,65 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { useSelector, useDispatch } from '../../redux/store';
+import { getCharacters } from '@/redux/slices/mainSlice';
+
 export default function Character(): JSX.Element {
-  const [personageData, setPersonageData] = useState([]);
+//   const [personageData, setPersonageData] = useState([]);
   const [filter, setFilter] = useState("");
   const [species, setSpecies] = useState("");
   const [gender, setGender] = useState("");
   const [status, setStatus] = useState("");
 
-  useEffect(() => {
-    (async () => {
-      await fetch("https://rickandmortyapi.com/api/character")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Error");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          let result = data.results;
-          result = data.results
-            .filter((el: { name: string }) => el.name.includes(filter))
-            .filter((el: { species: string }) => {
-              if (species) {
-                return el.species === species;
-              } else {
-                return el.species;
-              }
-            })
-            .filter((el: { gender: string }) => {
-              if (gender) {
-                return el.gender === gender;
-              } else {
-                return el.gender;
-              }
-            })
-            .filter((el: { status: string }) => {
-              if (status) {
-                return el.status === status;
-              } else {
-                return el.status;
-              }
-            });
+   const dispatch = useDispatch();
+   const {results} = useSelector((state) => state.cards);
 
-          setPersonageData(result);
-        })
-        .catch((error) => console.log(error));
-    })();
-  }, [gender, species, status, filter]);
+   useEffect(() => {
+       dispatch(getCharacters())
+   }, [dispatch])
+   
+  
+
+//   useEffect(() => {
+//     (async () => {
+//       await fetch("https://rickandmortyapi.com/api/character")
+//         .then((response) => {
+//           if (!response.ok) {
+//             throw new Error("Error");
+//           }
+//           return response.json();
+//         })
+//         .then((data) => {
+//           let result = data.results;
+//           result = data.results
+//             .filter((el: { name: string }) => el.name.includes(filter))
+//             .filter((el: { species: string }) => {
+//               if (species) {
+//                 return el.species === species;
+//               } else {
+//                 return el.species;
+//               }
+//             })
+//             .filter((el: { gender: string }) => {
+//               if (gender) {
+//                 return el.gender === gender;
+//               } else {
+//                 return el.gender;
+//               }
+//             })
+//             .filter((el: { status: string }) => {
+//               if (status) {
+//                 return el.status === status;
+//               } else {
+//                 return el.status;
+//               }
+//             });
+
+//           setPersonageData(result);
+//         })
+//         .catch((error) => console.log(error));
+//     })();
+//   }, [gender, species, status, filter]);
 
   return (
     <div className="wrapper">
@@ -64,7 +76,7 @@ export default function Character(): JSX.Element {
           priority={true}
         />
       </div>
-      <ul className={styles.inputList}>
+      {/* <ul className={styles.inputList}>
         <li className={styles.inputItem}>
           <label htmlFor="name">
             <Image
@@ -131,10 +143,10 @@ export default function Character(): JSX.Element {
             </select>
           </label>
         </li>
-      </ul>
+      </ul> */}
       <ul className={styles.personList}>
-        {personageData &&
-          personageData.map((el: any) => {
+        {results &&
+          results.map((el: any) => {
             return (
               <li key={el.id} className={styles.personItem}>
                 <Link href="/item">
