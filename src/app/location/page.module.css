@@ -47,7 +47,7 @@
 .btnWrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .loadMoreBtn {
@@ -68,4 +68,8 @@
 .loadMoreBtn:hover,
 .loadMoreBtn:focus {
   background-color: var(--hover-color);
+}
+
+.nextBtn {
+  margin-left: auto;
 }

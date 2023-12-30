@@ -1,7 +1,6 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Define the interface for Character
 interface Character {
   id: number;
   name: string;
@@ -43,25 +42,34 @@ interface Episode {
   created: string;
 }
 
-interface Data {
-  characters: Character[];
-  locations: Location[];
-  episodes: Episode[];
+interface Info {
+  count: number;
+  pages: number;
+  next: string;
+  prev: null | string;
 }
 
-// Define the initial state for this slice
-const initialState: Data = {
-  characters: [],
-  locations: [],
-  episodes: [],
+interface Data {
+  characters: { info: Info; results: Character[] };
+  locations: { info: Info; results: Location[] };
+  episodes: { info: Info; results: Episode[] };
+}
+
+const defaultInfo = {
+  info: { count: 0, pages: 0, next: "", prev: "" },
+  results: [],
 };
 
-// Create a Redux slice for managing card data
+const initialState: Data = {
+  characters: defaultInfo,
+  locations: defaultInfo,
+  episodes: defaultInfo,
+};
+
 const characterSlice = createSlice({
-  name: "character", // Name of the slice
-  initialState, // Initial state
+  name: "character",
+  initialState,
   reducers: {
-    // Define a reducer for a successful resource fetch
     getCharactersSuccess(state, action) {
       state.characters = action.payload;
     },
@@ -74,26 +82,17 @@ const characterSlice = createSlice({
   },
 });
 
-// Export the action creator for getResourcesSuccess
 export const { getCharactersSuccess, getLocationsSuccess, getEpisodesSuccess } =
   characterSlice.actions;
 
-// Export the reducer
 export default characterSlice.reducer;
 
-// Define an asynchronous action creator to fetch card resources from an API
-export function getCharacters() {
+export function getCharacters(url: string | null) {
+  const URL = url ? url : "https://rickandmortyapi.com/api/character";
   return async (dispatch: Dispatch) => {
     try {
-      // Make an HTTP GET request to the API
-      const response = await axios.get(
-        "https://rickandmortyapi.com/api/character"
-      );
-
-      // Extract card resources from the API response
-      const resources: Character = response.data.results;
-
-      // Dispatch the getResourcesSuccess action to update the Redux state
+      const response = await axios.get(URL);
+      const resources: { info: Info; results: Character[] } = response.data;
       dispatch(getCharactersSuccess(resources));
     } catch (error) {
       console.log(error);
@@ -101,15 +100,12 @@ export function getCharacters() {
   };
 }
 
-export function getLocations() {
+export function getLocations(url: string | null) {
+  const URL = url ? url : "https://rickandmortyapi.com/api/location";
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.get(
-        "https://rickandmortyapi.com/api/location"
-      );
-
-      const resources: Location = response.data.results;
-
+      const response = await axios.get(URL);
+      const resources: { info: Info; results: Location[] } = response.data;
       dispatch(getLocationsSuccess(resources));
     } catch (error) {
       console.log(error);
@@ -117,15 +113,12 @@ export function getLocations() {
   };
 }
 
-export function getEpisodes() {
+export function getEpisodes(url: string | null) {
+  const URL = url ? url : "https://rickandmortyapi.com/api/episode";
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.get(
-        "https://rickandmortyapi.com/api/episode"
-      );
-
-      const resources: Episode = response.data.results;
-
+      const response = await axios.get(URL);
+      const resources: { info: Info; results: Episode[] } = response.data;
       dispatch(getEpisodesSuccess(resources));
     } catch (error) {
       console.log(error);

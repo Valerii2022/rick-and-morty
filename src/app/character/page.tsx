@@ -2,25 +2,26 @@
 
 import styles from "./page.module.css";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { useSelector, useDispatch } from '../../redux/store';
-import { getCharacters } from '@/redux/slices/mainSlice';
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "../../redux/store";
+
+import { getCharacters } from "@/redux/slices/mainSlice";
 
 export default function Character(): JSX.Element {
-//   const [filter, setFilter] = useState("");
-//   const [species, setSpecies] = useState("");
-//   const [gender, setGender] = useState("");
-//   const [status, setStatus] = useState("");
+  //   const [filter, setFilter] = useState("");
+  //   const [species, setSpecies] = useState("");
+  //   const [gender, setGender] = useState("");
+  //   const [status, setStatus] = useState("");
 
-   const dispatch = useDispatch();
-   const {characters} = useSelector((state) => state.cards);
+  const dispatch = useDispatch();
+  const { characters } = useSelector((state) => state.cards);
 
-   useEffect(() => {
-       dispatch(getCharacters())
-   }, [dispatch])
-   
+  useEffect(() => {
+    dispatch(getCharacters(null));
+  }, [dispatch]);
+
   return (
     <div className="wrapper">
       <div className={styles.inner}>
@@ -101,8 +102,8 @@ export default function Character(): JSX.Element {
         </li>
       </ul> */}
       <ul className={styles.personList}>
-        {characters &&
-          characters.map((el: any) => {
+        {characters.results &&
+          characters.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.personItem}>
                 <Link href="/item">
@@ -123,7 +124,27 @@ export default function Character(): JSX.Element {
           })}
       </ul>
       <div className={styles.btnWrapper}>
-        <button className={styles.loadMoreBtn}>Load more</button>
+        {characters.info.prev && (
+          <button
+            onClick={() => {
+              dispatch(getCharacters(characters.info.prev));
+            }}
+            className={styles.loadMoreBtn}
+          >
+            Prev
+          </button>
+        )}
+
+        {characters.info.next && (
+          <button
+            onClick={() => {
+              dispatch(getCharacters(characters.info.next));
+            }}
+            className={`${styles.loadMoreBtn} ${styles.nextBtn}`}
+          >
+            Next
+          </button>
+        )}
       </div>
     </div>
   );

@@ -69,3 +69,7 @@
 .loadMoreBtn:focus {
   background-color: var(--hover-color);
 }
+
+.nextBtn {
+  margin-left: auto;
+}

@@ -3,16 +3,17 @@
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
+
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "../../redux/store";
 import { getEpisodes } from "@/redux/slices/mainSlice";
-import { useEffect } from "react";
 
 export default function Episode(): JSX.Element {
   const dispatch = useDispatch();
   const { episodes } = useSelector((state) => state.cards);
 
   useEffect(() => {
-    dispatch(getEpisodes());
+    dispatch(getEpisodes(null));
   }, [dispatch]);
 
   return (
@@ -27,8 +28,8 @@ export default function Episode(): JSX.Element {
         />
       </div>
       <ul className={styles.locationsList}>
-        {episodes &&
-          episodes.map((el: any) => {
+        {episodes.results &&
+          episodes.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.item}>
                 <Link href="/item">
@@ -41,7 +42,27 @@ export default function Episode(): JSX.Element {
           })}
       </ul>
       <div className={styles.btnWrapper}>
-        <button className={styles.loadMoreBtn}>Load more</button>
+        {episodes.info.prev && (
+          <button
+            onClick={() => {
+              dispatch(getEpisodes(episodes.info.prev));
+            }}
+            className={styles.loadMoreBtn}
+          >
+            Prev
+          </button>
+        )}
+
+        {episodes.info.next && (
+          <button
+            onClick={() => {
+              dispatch(getEpisodes(episodes.info.next));
+            }}
+            className={`${styles.loadMoreBtn} ${styles.nextBtn}`}
+          >
+            Next
+          </button>
+        )}
       </div>
     </div>
   );

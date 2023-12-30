@@ -1,19 +1,20 @@
 "use client";
 
 import styles from "./page.module.css";
-
-import { useSelector, useDispatch } from "../../redux/store";
-import { getLocations } from "@/redux/slices/mainSlice";
-import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+
+import { useSelector, useDispatch } from "../../redux/store";
+import { useEffect, useState } from "react";
+
+import { getLocations } from "@/redux/slices/mainSlice";
 
 export default function Location(): JSX.Element {
   const dispatch = useDispatch();
   const { locations } = useSelector((state) => state.cards);
 
   useEffect(() => {
-    dispatch(getLocations());
+    dispatch(getLocations(null));
   }, [dispatch]);
 
   return (
@@ -28,8 +29,8 @@ export default function Location(): JSX.Element {
         />
       </div>
       <ul className={styles.locationsList}>
-        {locations &&
-          locations.map((el: any) => {
+        {locations.results &&
+          locations.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.item}>
                 <Link href="/item">
@@ -41,7 +42,27 @@ export default function Location(): JSX.Element {
           })}
       </ul>
       <div className={styles.btnWrapper}>
-        <button className={styles.loadMoreBtn}>Load more</button>
+        {locations.info.prev && (
+          <button
+            onClick={() => {
+              dispatch(getLocations(locations.info.prev));
+            }}
+            className={styles.loadMoreBtn}
+          >
+            Prev
+          </button>
+        )}
+
+        {locations.info.next && (
+          <button
+            onClick={() => {
+              dispatch(getLocations(locations.info.next));
+            }}
+            className={`${styles.loadMoreBtn} ${styles.nextBtn}`}
+          >
+            Next
+          </button>
+        )}
       </div>
     </div>
   );
