@@ -23,13 +23,37 @@ interface Character {
   created: string;
 }
 
-interface CharactersData {
-  results: Character[];
+interface Location {
+  id: number;
+  name: string;
+  type: string;
+  dimension: string;
+  residents: string[];
+  url: string;
+  created: string;
+}
+
+interface Episode {
+  id: number;
+  name: string;
+  air_date: string;
+  episode: string;
+  characters: string[];
+  url: string;
+  created: string;
+}
+
+interface Data {
+  characters: Character[];
+  locations: Location[];
+  episodes: Episode[];
 }
 
 // Define the initial state for this slice
-const initialState: CharactersData = {
-  results: [],
+const initialState: Data = {
+  characters: [],
+  locations: [],
+  episodes: [],
 };
 
 // Create a Redux slice for managing card data
@@ -38,14 +62,21 @@ const characterSlice = createSlice({
   initialState, // Initial state
   reducers: {
     // Define a reducer for a successful resource fetch
-    getResourcesSuccess(state, action) {
-      state.results = action.payload;
+    getCharactersSuccess(state, action) {
+      state.characters = action.payload;
+    },
+    getLocationsSuccess(state, action) {
+      state.locations = action.payload;
+    },
+    getEpisodesSuccess(state, action) {
+      state.episodes = action.payload;
     },
   },
 });
 
 // Export the action creator for getResourcesSuccess
-export const { getResourcesSuccess } = characterSlice.actions;
+export const { getCharactersSuccess, getLocationsSuccess, getEpisodesSuccess } =
+  characterSlice.actions;
 
 // Export the reducer
 export default characterSlice.reducer;
@@ -63,7 +94,39 @@ export function getCharacters() {
       const resources: Character = response.data.results;
 
       // Dispatch the getResourcesSuccess action to update the Redux state
-      dispatch(getResourcesSuccess(resources));
+      dispatch(getCharactersSuccess(resources));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getLocations() {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await axios.get(
+        "https://rickandmortyapi.com/api/location"
+      );
+
+      const resources: Location = response.data.results;
+
+      dispatch(getLocationsSuccess(resources));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getEpisodes() {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await axios.get(
+        "https://rickandmortyapi.com/api/episode"
+      );
+
+      const resources: Episode = response.data.results;
+
+      dispatch(getEpisodesSuccess(resources));
     } catch (error) {
       console.log(error);
     }
