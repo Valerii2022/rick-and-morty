@@ -27,86 +27,86 @@ export default function Character(): JSX.Element {
       <div className={styles.inner}>
         <Image
           src="/logo.png"
-          width={600}
-          height={200}
+          sizes="100vw, 33vw"
           alt="Rick and Morty logo"
+          fill
           priority={true}
         />
       </div>
-      <ul className={styles.inputList}>
-        <li className={styles.inputItem}>
-          <label htmlFor="name">
-            <Image
-              src="/search.svg"
-              width={24}
-              height={24}
-              alt="Search icon"
-              priority={true}
-            />
-            <input
-              value={filter}
-              onChange={(e) => {
-                setFilter(e.target.value);
-              }}
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Filter by name..."
-            />
-          </label>
-        </li>
-        <li className={styles.inputItem}>
-          <label htmlFor="species">
-            <select
-              name="species"
-              id="species"
-              onChange={(e) => setSpecies(e.target.value)}
-            >
-              <option defaultValue="Species">Species</option>
-              <option value="Alien">Alien</option>
-              <option value="Animal">Animal</option>
-              <option value="Cronenberg">Cronenberg</option>
-              <option value="Human">Human</option>
-              <option value="Humanoid">Humanoid</option>
-              <option value="Mythological Creature">
-                Mythological Creature
-              </option>
-              <option value="Poopybutthole">Poopybutthole</option>
-              <option value="Robot">Robot</option>
-              <option value="Unknown">Unknown</option>
-            </select>
-          </label>
-        </li>
-        <li className={styles.inputItem}>
-          <label htmlFor="gender">
-            <select
-              name="gender"
-              id="gender"
-              onChange={(e) => setGender(e.target.value)}
-            >
-              <option defaultValue="Gender">Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Genderless">Genderless</option>
-              <option value="Unknown">Unknown</option>
-            </select>
-          </label>
-        </li>
-        <li className={styles.inputItem}>
-          <label htmlFor="status">
-            <select
-              name="status"
-              id="status"
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option defaultValue="Status">Status</option>
-              <option value="Alive">Alive</option>
-              <option value="Dead">Dead</option>
-              <option value="Unknown">Unknown</option>
-            </select>
-          </label>
-        </li>
-      </ul>
+      <div className={styles.filter}>
+        <label htmlFor="name" className={styles.inputLabel}>
+          <Image
+            src="/search.svg"
+            width={24}
+            height={24}
+            alt="Search icon"
+            priority={true}
+          />
+          <input
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.target.value);
+            }}
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Filter by name..."
+          />
+        </label>
+        <ul className={styles.inputList}>
+          <li className={styles.inputItem}>
+            <label htmlFor="species">
+              <select
+                name="species"
+                id="species"
+                onChange={(e) => setSpecies(e.target.value)}
+              >
+                <option defaultValue="Species">Species</option>
+                <option value="Alien">Alien</option>
+                <option value="Animal">Animal</option>
+                <option value="Cronenberg">Cronenberg</option>
+                <option value="Human">Human</option>
+                <option value="Humanoid">Humanoid</option>
+                <option value="Mythological Creature">
+                  Mythological Creature
+                </option>
+                <option value="Poopybutthole">Poopybutthole</option>
+                <option value="Robot">Robot</option>
+                <option value="Unknown">Unknown</option>
+              </select>
+            </label>
+          </li>
+          <li className={styles.inputItem}>
+            <label htmlFor="gender">
+              <select
+                name="gender"
+                id="gender"
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <option defaultValue="Gender">Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Genderless">Genderless</option>
+                <option value="Unknown">Unknown</option>
+              </select>
+            </label>
+          </li>
+          <li className={styles.inputItem}>
+            <label htmlFor="status">
+              <select
+                name="status"
+                id="status"
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option defaultValue="Status">Status</option>
+                <option value="Alive">Alive</option>
+                <option value="Dead">Dead</option>
+                <option value="Unknown">Unknown</option>
+              </select>
+            </label>
+          </li>
+        </ul>
+      </div>
       <ul className={styles.personList}>
         {characters.results &&
           characters.results.map((el: any) => {

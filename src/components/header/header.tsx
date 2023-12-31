@@ -26,6 +26,15 @@ export default function Header(): JSX.Element {
             <Link href="/episode">Episode</Link>
           </li>
         </ul>
+        <div className={styles.mobileMenu}>
+          <Image
+            src="/menu.svg"
+            width={24}
+            height={24}
+            alt="Burger menu icon"
+            priority={true}
+          />
+        </div>
       </nav>
     </header>
   );

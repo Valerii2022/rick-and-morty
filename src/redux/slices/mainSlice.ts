@@ -79,6 +79,9 @@ const characterSlice = createSlice({
     getEpisodesSuccess(state, action) {
       state.episodes = action.payload;
     },
+    getState(state, action) {
+      console.dir(state);
+    },
   },
 });
 
