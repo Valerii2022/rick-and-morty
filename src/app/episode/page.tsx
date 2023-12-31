@@ -4,11 +4,12 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "../../redux/store";
 import { getEpisodes } from "@/redux/slices/mainSlice";
 
 export default function Episode(): JSX.Element {
+  const [filter, setFilter] = useState("");
   const dispatch = useDispatch();
   const { episodes } = useSelector((state) => state.cards);
 
@@ -27,12 +28,35 @@ export default function Episode(): JSX.Element {
           priority={true}
         />
       </div>
-      <ul className={styles.locationsList}>
+      <ul className={styles.inputList}>
+        <li className={styles.inputItem}>
+          <label htmlFor="name">
+            <Image
+              src="/search.svg"
+              width={24}
+              height={24}
+              alt="Search icon"
+              priority={true}
+            />
+            <input
+              value={filter}
+              onChange={(e) => {
+                setFilter(e.target.value);
+              }}
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Filter by name or episode (ex. S01 or S01E02)..."
+            />
+          </label>
+        </li>
+      </ul>
+      <ul className={styles.episodesList}>
         {episodes.results &&
           episodes.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.item}>
-                <Link href="/item">
+                <Link href="/episode-details">
                   <h2>{el.name}</h2>
                   <p>{el.air_date}</p>
                   <p>{el.episode}</p>
@@ -47,7 +71,7 @@ export default function Episode(): JSX.Element {
             onClick={() => {
               dispatch(getEpisodes(episodes.info.prev));
             }}
-            className={styles.loadMoreBtn}
+            className={`${styles.loadMoreBtn} ${styles.prevBtn}`}
           >
             Prev
           </button>

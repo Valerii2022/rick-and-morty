@@ -10,10 +10,10 @@ import { useSelector, useDispatch } from "../../redux/store";
 import { getCharacters } from "@/redux/slices/mainSlice";
 
 export default function Character(): JSX.Element {
-  //   const [filter, setFilter] = useState("");
-  //   const [species, setSpecies] = useState("");
-  //   const [gender, setGender] = useState("");
-  //   const [status, setStatus] = useState("");
+  const [filter, setFilter] = useState("");
+  const [species, setSpecies] = useState("");
+  const [gender, setGender] = useState("");
+  const [status, setStatus] = useState("");
 
   const dispatch = useDispatch();
   const { characters } = useSelector((state) => state.cards);
@@ -33,7 +33,7 @@ export default function Character(): JSX.Element {
           priority={true}
         />
       </div>
-      {/* <ul className={styles.inputList}>
+      <ul className={styles.inputList}>
         <li className={styles.inputItem}>
           <label htmlFor="name">
             <Image
@@ -56,17 +56,24 @@ export default function Character(): JSX.Element {
           </label>
         </li>
         <li className={styles.inputItem}>
-          <label htmlFor="name">
+          <label htmlFor="species">
             <select
               name="species"
-              id="name"
+              id="species"
               onChange={(e) => setSpecies(e.target.value)}
             >
-              <option value="Species" selected>
-                Species
-              </option>
-              <option value="Human">Human</option>
+              <option defaultValue="Species">Species</option>
               <option value="Alien">Alien</option>
+              <option value="Animal">Animal</option>
+              <option value="Cronenberg">Cronenberg</option>
+              <option value="Human">Human</option>
+              <option value="Humanoid">Humanoid</option>
+              <option value="Mythological Creature">
+                Mythological Creature
+              </option>
+              <option value="Poopybutthole">Poopybutthole</option>
+              <option value="Robot">Robot</option>
+              <option value="Unknown">Unknown</option>
             </select>
           </label>
         </li>
@@ -77,11 +84,11 @@ export default function Character(): JSX.Element {
               id="gender"
               onChange={(e) => setGender(e.target.value)}
             >
-              <option value="Gender" selected>
-                Gender
-              </option>
+              <option defaultValue="Gender">Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
+              <option value="Genderless">Genderless</option>
+              <option value="Unknown">Unknown</option>
             </select>
           </label>
         </li>
@@ -92,21 +99,20 @@ export default function Character(): JSX.Element {
               id="status"
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="Status" selected>
-                Status
-              </option>
+              <option defaultValue="Status">Status</option>
               <option value="Alive">Alive</option>
               <option value="Dead">Dead</option>
+              <option value="Unknown">Unknown</option>
             </select>
           </label>
         </li>
-      </ul> */}
+      </ul>
       <ul className={styles.personList}>
         {characters.results &&
           characters.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.personItem}>
-                <Link href="/item">
+                <Link href="/character-details">
                   <Image
                     src={el.image}
                     width={240}
@@ -129,7 +135,7 @@ export default function Character(): JSX.Element {
             onClick={() => {
               dispatch(getCharacters(characters.info.prev));
             }}
-            className={styles.loadMoreBtn}
+            className={`${styles.loadMoreBtn} ${styles.prevBtn}`}
           >
             Prev
           </button>

@@ -2,9 +2,49 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 16px;
 }
 
-.locationsList {
+.inputList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 65px;
+}
+
+.inputItem {
+  width: 500px;
+  height: 56px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border: 1px solid var(--main-color);
+}
+
+.inputItem label {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.inputItem input::placeholder {
+  color: rgba(0, 128, 128, 0.4);
+}
+
+.inputItem input,
+.inputItem select {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--main-color);
+  font-size: 16px;
+  line-height: 1.18;
+}
+
+.episodesList {
   display: flex;
   flex-wrap: wrap;
   column-gap: 20px;
@@ -68,6 +108,10 @@
 .loadMoreBtn:hover,
 .loadMoreBtn:focus {
   background-color: var(--hover-color);
+}
+
+.prevBtn {
+  margin-right: auto;
 }
 
 .nextBtn {

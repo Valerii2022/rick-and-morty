@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 16px;
 }
 
 .inputList {
@@ -106,6 +107,10 @@
 .loadMoreBtn:hover,
 .loadMoreBtn:focus {
   background-color: var(--hover-color);
+}
+
+.prevBtn {
+  margin-right: auto;
 }
 
 .nextBtn {
