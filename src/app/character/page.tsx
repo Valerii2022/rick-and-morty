@@ -41,6 +41,7 @@ export default function Character(): JSX.Element {
             height={24}
             alt="Search icon"
             priority={true}
+            style={{ cursor: "pointer" }}
           />
           <input
             value={filter}
@@ -115,6 +116,7 @@ export default function Character(): JSX.Element {
             height={24}
             alt="Search icon"
             priority={true}
+            style={{ cursor: "pointer" }}
           />
           <p>Advanced filter</p>
         </div>
