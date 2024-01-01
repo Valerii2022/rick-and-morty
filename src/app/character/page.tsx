@@ -23,7 +23,7 @@ export default function Character(): JSX.Element {
   }, [dispatch]);
 
   return (
-    <div className="wrapper">
+    <div className={"wrapper"}>
       <div className={styles.inner}>
         <Image
           src="/logo.png"

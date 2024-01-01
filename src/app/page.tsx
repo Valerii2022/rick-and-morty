@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 
 export default function Home(): JSX.Element {
   return (
-    <main className="wrapper">
+    <main className={styles.wrapper}>
       <div className={styles.inner}>
         <div className={styles.imageWrapper}>
           <Image

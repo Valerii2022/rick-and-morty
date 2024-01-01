@@ -1,3 +1,12 @@
+.wrapper {
+  flex-grow: 1;
+  padding: 10px 8px 24px;
+  width: 320px;
+  height: calc(100vh - 361px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .inner {
   height: 100%;
   display: flex;
@@ -11,9 +20,27 @@
   height: 100px;
 }
 
+@media screen and (min-width: 401px) {
+  .wrapper {
+    height: calc(100vh - 111px);
+  }
+}
+
 @media screen and (min-width: 768px) {
+  .wrapper {
+    padding: 20px 134px 32px;
+    width: 768px;
+  }
+
   .imageWrapper {
     width: 600px;
     height: 200px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    padding: 26px 210px 44px;
+    width: 1440px;
   }
 }
