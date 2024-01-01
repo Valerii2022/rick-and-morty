@@ -107,6 +107,18 @@ export default function Character(): JSX.Element {
           </li>
         </ul>
       </div>
+      <div className={styles.mobileFilter}>
+        <div className={styles.inputLabel}>
+          <Image
+            src="/filter.svg"
+            width={24}
+            height={24}
+            alt="Search icon"
+            priority={true}
+          />
+          <p>Advanced filter</p>
+        </div>
+      </div>
       <ul className={styles.personList}>
         {characters.results &&
           characters.results.map((el: any) => {

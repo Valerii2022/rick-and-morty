@@ -14,6 +14,22 @@
   margin-bottom: 20px;
 }
 
+.mobileFilter {
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  color: var(--hover-color);
+}
+
+.mobileFilter .inputLabel {
+  background-color: rgba(0, 128, 128, 0.2);
+}
+.mobileFilter p {
+  flex-grow: 1;
+  text-align: center;
+}
+
 .inputList {
   display: none;
 }
@@ -36,13 +52,14 @@
   padding: 0 14px;
   border: 1px solid var(--main-color);
 }
-
+.inputLabel,
 .inputItem label {
   display: flex;
   gap: 8px;
   width: 100%;
 }
 
+.inputLabel input::placeholder,
 .inputItem input::placeholder {
   color: rgba(0, 128, 128, 0.4);
 }
@@ -132,6 +149,7 @@
 }
 
 @media screen and (max-width: 767px) {
+  .mobileFilter,
   .filter {
     margin-left: 32px;
     margin-right: 32px;
@@ -150,6 +168,10 @@
 }
 
 @media screen and (min-width: 1440px) {
+  .mobileFilter {
+    display: none;
+  }
+
   .inner {
     width: 600px;
     height: 200px;

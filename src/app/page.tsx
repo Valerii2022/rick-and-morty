@@ -5,13 +5,15 @@ export default function Home(): JSX.Element {
   return (
     <main className="wrapper">
       <div className={styles.inner}>
-        <Image
-          src="/logo.png"
-          width={600}
-          height={200}
-          alt="Rick and Morty logo"
-          priority={true}
-        />
+        <div className={styles.imageWrapper}>
+          <Image
+            src="/logo.png"
+            sizes="100vw, 33vw"
+            fill
+            alt="Rick and Morty logo"
+            priority={true}
+          />
+        </div>
       </div>
     </main>
   );

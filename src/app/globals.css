@@ -44,9 +44,16 @@ ul {
   flex-grow: 1;
   padding: 10px 8px 24px;
   width: 320px;
+  height: calc(100vh - 361px);
   min-height: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media screen and (min-width: 401px) {
+  .wrapper {
+    height: calc(100vh - 111px);
+  }
 }
 
 @media screen and (min-width: 768px) {
