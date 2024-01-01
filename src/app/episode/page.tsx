@@ -22,35 +22,33 @@ export default function Episode(): JSX.Element {
       <div className={styles.inner}>
         <Image
           src="/episode.png"
-          width={270}
-          height={210}
+          fill
+          sizes="100vw, 33vw"
           alt="Episode Page logo"
           priority={true}
         />
       </div>
-      <ul className={styles.inputList}>
-        <li className={styles.inputItem}>
-          <label htmlFor="name">
-            <Image
-              src="/search.svg"
-              width={24}
-              height={24}
-              alt="Search icon"
-              priority={true}
-            />
-            <input
-              value={filter}
-              onChange={(e) => {
-                setFilter(e.target.value);
-              }}
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Filter by name or episode (ex. S01 or S01E02)..."
-            />
-          </label>
-        </li>
-      </ul>
+      <div className={styles.filter}>
+        <label htmlFor="name" className={styles.inputLabel}>
+          <Image
+            src="/search.svg"
+            width={24}
+            height={24}
+            alt="Search icon"
+            priority={true}
+          />
+          <input
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.target.value);
+            }}
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Filter by name or episode (ex. S01 or S01E02)..."
+          />
+        </label>
+      </div>
       <ul className={styles.episodesList}>
         {episodes.results &&
           episodes.results.map((el: any) => {

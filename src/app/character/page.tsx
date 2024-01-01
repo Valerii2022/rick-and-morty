@@ -6,7 +6,6 @@ import Link from "next/link";
 
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "../../redux/store";
-
 import { getCharacters } from "@/redux/slices/mainSlice";
 
 export default function Character(): JSX.Element {
@@ -23,7 +22,7 @@ export default function Character(): JSX.Element {
   }, [dispatch]);
 
   return (
-    <div className={"wrapper"}>
+    <div className="wrapper">
       <div className={styles.inner}>
         <Image
           src="/logo.png"
