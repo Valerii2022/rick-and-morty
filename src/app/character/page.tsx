@@ -13,6 +13,7 @@ export default function Character(): JSX.Element {
   const [species, setSpecies] = useState("");
   const [gender, setGender] = useState("");
   const [status, setStatus] = useState("");
+  const [mobileFilter, setMobileFilter] = useState(false);
   const dispatch = useDispatch();
   const { characters } = useSelector((state) => state.cards);
 
@@ -109,6 +110,7 @@ export default function Character(): JSX.Element {
       <div className={styles.mobileFilter}>
         <div className={styles.inputLabel}>
           <Image
+            onClick={() => setMobileFilter(!mobileFilter)}
             src="/filter.svg"
             width={24}
             height={24}
@@ -117,6 +119,81 @@ export default function Character(): JSX.Element {
             style={{ cursor: "pointer" }}
           />
           <p>Advanced filter</p>
+          {mobileFilter && (
+            <div className={styles.filterModalBackdrop}>
+              <div className={styles.filterModal}>
+                <h2>Filters</h2>
+                <Image
+                  onClick={() => setMobileFilter(!mobileFilter)}
+                  src="/close.svg"
+                  width={24}
+                  height={24}
+                  alt="Close icon"
+                  priority={true}
+                  style={{
+                    cursor: "pointer",
+                    position: "absolute",
+                    top: "15px",
+                    right: "15px",
+                  }}
+                />
+                <ul className={styles.mobileInputList}>
+                  <li className={styles.inputItem}>
+                    <label htmlFor="species">
+                      <select
+                        name="species"
+                        id="species"
+                        onChange={(e) => setSpecies(e.target.value)}
+                      >
+                        <option defaultValue="Species">Species</option>
+                        <option value="Alien">Alien</option>
+                        <option value="Animal">Animal</option>
+                        <option value="Cronenberg">Cronenberg</option>
+                        <option value="Human">Human</option>
+                        <option value="Humanoid">Humanoid</option>
+                        <option value="Mythological Creature">
+                          Mythological Creature
+                        </option>
+                        <option value="Poopybutthole">Poopybutthole</option>
+                        <option value="Robot">Robot</option>
+                        <option value="Unknown">Unknown</option>
+                      </select>
+                    </label>
+                  </li>
+                  <li className={styles.inputItem}>
+                    <label htmlFor="gender">
+                      <select
+                        name="gender"
+                        id="gender"
+                        onChange={(e) => setGender(e.target.value)}
+                      >
+                        <option defaultValue="Gender">Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Genderless">Genderless</option>
+                        <option value="Unknown">Unknown</option>
+                      </select>
+                    </label>
+                  </li>
+                  <li className={styles.inputItem}>
+                    <label htmlFor="status">
+                      <select
+                        name="status"
+                        id="status"
+                        onChange={(e) => setStatus(e.target.value)}
+                      >
+                        <option defaultValue="Status">Status</option>
+                        <option value="Alive">Alive</option>
+                        <option value="Dead">Dead</option>
+                        <option value="Unknown">Unknown</option>
+                      </select>
+                    </label>
+                  </li>
+                </ul>
+                <button className={styles.loadMoreBtn}>Apply</button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <ul className={styles.personList}>

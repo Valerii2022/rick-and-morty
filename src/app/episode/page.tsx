@@ -31,6 +31,7 @@ export default function Episode(): JSX.Element {
       <div className={styles.filter}>
         <label htmlFor="name" className={styles.inputLabel}>
           <Image
+            style={{ cursor: "pointer" }}
             src="/search.svg"
             width={24}
             height={24}
