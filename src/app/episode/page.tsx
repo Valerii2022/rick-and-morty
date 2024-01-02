@@ -11,7 +11,7 @@ import { getEpisodes } from "@/redux/slices/mainSlice";
 export default function Episode(): JSX.Element {
   const [filter, setFilter] = useState("");
   const dispatch = useDispatch();
-  const { episodes } = useSelector((state) => state.cards);
+  const { episodes, error } = useSelector((state) => state.cards);
 
   useEffect(() => {
     dispatch(getEpisodes(null));
@@ -31,6 +31,9 @@ export default function Episode(): JSX.Element {
       <div className={styles.filter}>
         <label htmlFor="name" className={styles.inputLabel}>
           <Image
+            onClick={() => {
+              dispatch(getEpisodes({ name: filter }));
+            }}
             style={{ cursor: "pointer" }}
             src="/search.svg"
             width={24}
@@ -48,10 +51,28 @@ export default function Episode(): JSX.Element {
             id="name"
             placeholder="Filter by name or episode (ex. S01 or S01E02)..."
           />
+          {filter && (
+            <Image
+              onClick={() => {
+                setFilter("");
+                dispatch(getEpisodes({ name: "" }));
+              }}
+              src="/close.svg"
+              width={24}
+              height={24}
+              alt="Search icon"
+              priority={true}
+              style={{ cursor: "pointer" }}
+            />
+          )}
         </label>
       </div>
       <ul className={styles.episodesList}>
-        {episodes.results &&
+        {error ? (
+          <li className="error">
+            <h2>{error}</h2>
+          </li>
+        ) : (
           episodes.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.item}>
@@ -62,7 +83,8 @@ export default function Episode(): JSX.Element {
                 </Link>
               </li>
             );
-          })}
+          })
+        )}
       </ul>
       <div className={styles.btnWrapper}>
         {episodes.info.prev && (

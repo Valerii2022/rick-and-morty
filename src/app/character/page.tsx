@@ -15,11 +15,21 @@ export default function Character(): JSX.Element {
   const [status, setStatus] = useState("");
   const [mobileFilter, setMobileFilter] = useState(false);
   const dispatch = useDispatch();
-  const { characters } = useSelector((state) => state.cards);
+  const { characters, error } = useSelector((state) => state.cards);
 
   useEffect(() => {
     dispatch(getCharacters(null));
   }, [dispatch]);
+
+  function handleBackdropClick(e: React.MouseEvent<HTMLDivElement>) {
+    if (e.target === e.currentTarget) {
+      setMobileFilter(false);
+    }
+  }
+
+  function handleFiltersApply(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+  }
 
   return (
     <div className="wrapper">
@@ -35,6 +45,11 @@ export default function Character(): JSX.Element {
       <div className={styles.filter}>
         <label htmlFor="name" className={styles.inputLabel}>
           <Image
+            onClick={() => {
+              dispatch(
+                getCharacters({ name: filter, status, species, gender })
+              );
+            }}
             src="/search.svg"
             width={24}
             height={24}
@@ -52,6 +67,20 @@ export default function Character(): JSX.Element {
             id="name"
             placeholder="Filter by name..."
           />
+          {filter && (
+            <Image
+              onClick={() => {
+                setFilter("");
+                dispatch(getCharacters({ name: "", status, species, gender }));
+              }}
+              src="/close.svg"
+              width={24}
+              height={24}
+              alt="Search icon"
+              priority={true}
+              style={{ cursor: "pointer" }}
+            />
+          )}
         </label>
         <ul className={styles.inputList}>
           <li className={styles.inputItem}>
@@ -120,7 +149,10 @@ export default function Character(): JSX.Element {
           />
           <p>Advanced filter</p>
           {mobileFilter && (
-            <div className={styles.filterModalBackdrop}>
+            <div
+              onClick={handleBackdropClick}
+              className={styles.filterModalBackdrop}
+            >
               <div className={styles.filterModal}>
                 <h2>Filters</h2>
                 <Image
@@ -137,67 +169,66 @@ export default function Character(): JSX.Element {
                     right: "15px",
                   }}
                 />
-                <ul className={styles.mobileInputList}>
-                  <li className={styles.inputItem}>
-                    <label htmlFor="species">
-                      <select
-                        name="species"
-                        id="species"
-                        onChange={(e) => setSpecies(e.target.value)}
-                      >
-                        <option defaultValue="Species">Species</option>
-                        <option value="Alien">Alien</option>
-                        <option value="Animal">Animal</option>
-                        <option value="Cronenberg">Cronenberg</option>
-                        <option value="Human">Human</option>
-                        <option value="Humanoid">Humanoid</option>
-                        <option value="Mythological Creature">
-                          Mythological Creature
-                        </option>
-                        <option value="Poopybutthole">Poopybutthole</option>
-                        <option value="Robot">Robot</option>
-                        <option value="Unknown">Unknown</option>
-                      </select>
-                    </label>
-                  </li>
-                  <li className={styles.inputItem}>
-                    <label htmlFor="gender">
-                      <select
-                        name="gender"
-                        id="gender"
-                        onChange={(e) => setGender(e.target.value)}
-                      >
-                        <option defaultValue="Gender">Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Genderless">Genderless</option>
-                        <option value="Unknown">Unknown</option>
-                      </select>
-                    </label>
-                  </li>
-                  <li className={styles.inputItem}>
-                    <label htmlFor="status">
-                      <select
-                        name="status"
-                        id="status"
-                        onChange={(e) => setStatus(e.target.value)}
-                      >
-                        <option defaultValue="Status">Status</option>
-                        <option value="Alive">Alive</option>
-                        <option value="Dead">Dead</option>
-                        <option value="Unknown">Unknown</option>
-                      </select>
-                    </label>
-                  </li>
-                </ul>
-                <button className={styles.loadMoreBtn}>Apply</button>
+                <form>
+                  <ul className={styles.mobileInputList}>
+                    <li className={styles.inputItem}>
+                      <label htmlFor="species">
+                        <select name="species" id="species">
+                          <option defaultValue="Species">Species</option>
+                          <option value="Alien">Alien</option>
+                          <option value="Animal">Animal</option>
+                          <option value="Cronenberg">Cronenberg</option>
+                          <option value="Human">Human</option>
+                          <option value="Humanoid">Humanoid</option>
+                          <option value="Mythological Creature">
+                            Mythological Creature
+                          </option>
+                          <option value="Poopybutthole">Poopybutthole</option>
+                          <option value="Robot">Robot</option>
+                          <option value="Unknown">Unknown</option>
+                        </select>
+                      </label>
+                    </li>
+                    <li className={styles.inputItem}>
+                      <label htmlFor="gender">
+                        <select name="gender" id="gender">
+                          <option defaultValue="Gender">Gender</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Genderless">Genderless</option>
+                          <option value="Unknown">Unknown</option>
+                        </select>
+                      </label>
+                    </li>
+                    <li className={styles.inputItem}>
+                      <label htmlFor="status">
+                        <select name="status" id="status">
+                          <option defaultValue="Status">Status</option>
+                          <option value="Alive">Alive</option>
+                          <option value="Dead">Dead</option>
+                          <option value="Unknown">Unknown</option>
+                        </select>
+                      </label>
+                    </li>
+                  </ul>
+                  <button
+                    onSubmit={handleFiltersApply}
+                    className={styles.loadMoreBtn}
+                  >
+                    Apply
+                  </button>
+                </form>
               </div>
             </div>
           )}
         </div>
       </div>
       <ul className={styles.personList}>
-        {characters.results &&
+        {error ? (
+          <li className="error">
+            <h2>{error}</h2>
+          </li>
+        ) : (
           characters.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.personItem}>
@@ -216,7 +247,8 @@ export default function Character(): JSX.Element {
                 </Link>
               </li>
             );
-          })}
+          })
+        )}
       </ul>
       <div className={styles.btnWrapper}>
         {characters.info.prev && (
