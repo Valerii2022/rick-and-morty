@@ -13,7 +13,6 @@ export default function Character(): JSX.Element {
   const [species, setSpecies] = useState("");
   const [gender, setGender] = useState("");
   const [status, setStatus] = useState("");
-
   const dispatch = useDispatch();
   const { characters } = useSelector((state) => state.cards);
 
