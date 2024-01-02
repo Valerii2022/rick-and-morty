@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { useSelector, useDispatch } from "../../redux/store";
-import { FormEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getLocations } from "@/redux/slices/mainSlice";
 
 export default function Location(): JSX.Element {
@@ -28,13 +28,16 @@ export default function Location(): JSX.Element {
 
   function handleFiltersApply(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    let type = "";
+    let dimension = "";
     const formData = new FormData(e.currentTarget);
     const data: Record<string, string> = {};
     formData.forEach((value, key) => {
       data[key] = value as string;
     });
-    if (data.type !== "Type") setType(data.type);
-    if (data.dimension !== "Dimension") setDimension(data.dimension);
+    if (data.type !== "Type") type = data.type;
+    if (data.dimension !== "Dimension") dimension = data.dimension;
+    dispatch(getLocations({ name: filter, type: type, dimension: dimension }));
     setMobileFilter(false);
   }
 
@@ -53,7 +56,9 @@ export default function Location(): JSX.Element {
         <label htmlFor="name" className={styles.inputLabel}>
           <Image
             onClick={() => {
-              dispatch(getLocations({ name: filter, type, dimension }));
+              dispatch(
+                getLocations({ name: filter, type: type, dimension: dimension })
+              );
             }}
             src="/search.svg"
             width={24}
@@ -76,7 +81,7 @@ export default function Location(): JSX.Element {
             <Image
               onClick={() => {
                 setFilter("");
-                dispatch(getLocations({ name: "", type, dimension }));
+                dispatch(getLocations({ name: "", type: "", dimension: "" }));
               }}
               src="/close.svg"
               width={24}
@@ -93,7 +98,27 @@ export default function Location(): JSX.Element {
               <select
                 name="type"
                 id="type"
-                onChange={(e) => setType(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value === "Type") {
+                    setType("");
+                    dispatch(
+                      getLocations({
+                        name: filter,
+                        type: "",
+                        dimension: dimension,
+                      })
+                    );
+                  } else {
+                    setType(e.target.value);
+                    dispatch(
+                      getLocations({
+                        name: filter,
+                        type: e.target.value,
+                        dimension: dimension,
+                      })
+                    );
+                  }
+                }}
               >
                 <option defaultValue="Type">Type</option>
                 <option value="Memory">Memory</option>
@@ -153,7 +178,27 @@ export default function Location(): JSX.Element {
               <select
                 name="dimension"
                 id="dimension"
-                onChange={(e) => setDimension(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value === "Dimension") {
+                    setDimension("");
+                    dispatch(
+                      getLocations({
+                        name: filter,
+                        type: type,
+                        dimension: "",
+                      })
+                    );
+                  } else {
+                    setDimension(e.target.value);
+                    dispatch(
+                      getLocations({
+                        name: filter,
+                        type: type,
+                        dimension: e.target.value,
+                      })
+                    );
+                  }
+                }}
               >
                 <option defaultValue="Dimension">Dimension</option>
                 <option value="Chair Dimension">Chair Dimension</option>

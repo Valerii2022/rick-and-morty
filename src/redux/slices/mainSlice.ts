@@ -118,7 +118,7 @@ export function getCharacters(url: string | null | FilteredCharacterData) {
   } else if (typeof url === "string") {
     URL = url;
   } else {
-    URL = `https://rickandmortyapi.com/api/character/?name=${url.name}&status=${url.status}&dimension=${url.species}&gender=${url.gender}`;
+    URL = `https://rickandmortyapi.com/api/character/?name=${url.name}&status=${url.status}&species=${url.species}&gender=${url.gender}`;
   }
   return async (dispatch: Dispatch) => {
     try {
@@ -158,7 +158,7 @@ export function getEpisodes(url: string | null | FilteredEpisodesData) {
   } else if (typeof url === "string") {
     URL = url;
   } else {
-    URL = `https://rickandmortyapi.com/api/episode/?name=${url.name}`;
+    URL = `https://rickandmortyapi.com/api/episode/?episode=${url.name}`;
   }
   return async (dispatch: Dispatch) => {
     try {

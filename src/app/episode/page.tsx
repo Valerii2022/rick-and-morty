@@ -49,7 +49,7 @@ export default function Episode(): JSX.Element {
             type="text"
             name="name"
             id="name"
-            placeholder="Filter by name or episode (ex. S01 or S01E02)..."
+            placeholder="Filter by episode (ex. S01 or S01E02)..."
           />
           {filter && (
             <Image

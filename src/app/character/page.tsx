@@ -27,8 +27,28 @@ export default function Character(): JSX.Element {
     }
   }
 
-  function handleFiltersApply(e: React.MouseEvent<HTMLButtonElement>) {
+  function handleFiltersApply(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    let status = "";
+    let species = "";
+    let gender = "";
+    const formData = new FormData(e.currentTarget);
+    const data: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      data[key] = value as string;
+    });
+    if (data.status !== "Status") status = data.status;
+    if (data.species !== "Species") species = data.species;
+    if (data.gender !== "Gender") gender = data.gender;
+    dispatch(
+      getCharacters({
+        name: filter,
+        gender: gender,
+        status: status,
+        species: species,
+      })
+    );
+    setMobileFilter(false);
   }
 
   return (
@@ -88,7 +108,29 @@ export default function Character(): JSX.Element {
               <select
                 name="species"
                 id="species"
-                onChange={(e) => setSpecies(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value === "Species") {
+                    setSpecies("");
+                    dispatch(
+                      getCharacters({
+                        name: filter,
+                        status: status,
+                        species: "",
+                        gender: gender,
+                      })
+                    );
+                  } else {
+                    setSpecies(e.target.value);
+                    dispatch(
+                      getCharacters({
+                        name: filter,
+                        status: status,
+                        species: e.target.value,
+                        gender: gender,
+                      })
+                    );
+                  }
+                }}
               >
                 <option defaultValue="Species">Species</option>
                 <option value="Alien">Alien</option>
@@ -110,7 +152,29 @@ export default function Character(): JSX.Element {
               <select
                 name="gender"
                 id="gender"
-                onChange={(e) => setGender(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value === "Gender") {
+                    setGender("");
+                    dispatch(
+                      getCharacters({
+                        name: filter,
+                        status: status,
+                        species: species,
+                        gender: "",
+                      })
+                    );
+                  } else {
+                    setGender(e.target.value);
+                    dispatch(
+                      getCharacters({
+                        name: filter,
+                        status: status,
+                        gender: e.target.value,
+                        species: species,
+                      })
+                    );
+                  }
+                }}
               >
                 <option defaultValue="Gender">Gender</option>
                 <option value="Male">Male</option>
@@ -125,7 +189,29 @@ export default function Character(): JSX.Element {
               <select
                 name="status"
                 id="status"
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value === "Status") {
+                    setStatus("");
+                    dispatch(
+                      getCharacters({
+                        name: filter,
+                        status: "",
+                        species: species,
+                        gender: gender,
+                      })
+                    );
+                  } else {
+                    setStatus(e.target.value);
+                    dispatch(
+                      getCharacters({
+                        name: filter,
+                        status: e.target.value,
+                        species: species,
+                        gender: gender,
+                      })
+                    );
+                  }
+                }}
               >
                 <option defaultValue="Status">Status</option>
                 <option value="Alive">Alive</option>
@@ -169,7 +255,7 @@ export default function Character(): JSX.Element {
                     right: "15px",
                   }}
                 />
-                <form>
+                <form onSubmit={handleFiltersApply}>
                   <ul className={styles.mobileInputList}>
                     <li className={styles.inputItem}>
                       <label htmlFor="species">
@@ -211,12 +297,7 @@ export default function Character(): JSX.Element {
                       </label>
                     </li>
                   </ul>
-                  <button
-                    onSubmit={handleFiltersApply}
-                    className={styles.loadMoreBtn}
-                  >
-                    Apply
-                  </button>
+                  <button className={styles.loadMoreBtn}>Apply</button>
                 </form>
               </div>
             </div>
