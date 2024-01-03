@@ -1,5 +1,7 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
+import { dispatch } from "../store";
+import { act } from "react-dom/test-utils";
 
 interface Character {
   id: number;
@@ -115,10 +117,13 @@ const characterSlice = createSlice({
       state.current.location = action.payload;
     },
     getCurrentEpisodeSuccess(state, action) {
+      state.current.episode = action.payload;
+    },
+    getCurrentEpisodesArraySuccess(state, action) {
       if (action.payload instanceof Array) {
         state.current.episodes = action.payload;
       } else {
-        state.current.episode = action.payload;
+        state.current.episodes = [action.payload];
       }
     },
   },
@@ -132,6 +137,7 @@ export const {
   getCurrentCharacterSuccess,
   getCurrentLocationSuccess,
   getCurrentEpisodeSuccess,
+  getCurrentEpisodesArraySuccess,
 } = characterSlice.actions;
 
 export default characterSlice.reducer;
@@ -164,6 +170,7 @@ export function getCharacterById(id: string) {
       );
       const resources: Character = response.data;
       dispatch(getCurrentCharacterSuccess(resources));
+      getIdFromUrl(resources.episode);
     } catch (error) {
       dispatch(getError("No characters find.Try again!"));
     }
@@ -224,18 +231,11 @@ export function getEpisodes(url: string | null | FilteredEpisodesData) {
   };
 }
 
-export function getEpisodeById(id: string | string[]) {
-  let params: string;
-  if (typeof id === "string") {
-    params = id;
-  } else {
-    console.log(id);
-    params = "1";
-  }
+export function getEpisodeById(id: string) {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.get(
-        `https://rickandmortyapi.com/api/episode/${params}`
+        `https://rickandmortyapi.com/api/episode/${id}`
       );
       const resources: Episode | Episode[] = response.data;
       dispatch(getCurrentEpisodeSuccess(resources));
@@ -243,4 +243,27 @@ export function getEpisodeById(id: string | string[]) {
       dispatch(getError("No episodes find.Try again!"));
     }
   };
+}
+
+function getEpisodesArrayById(id: string[]) {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await axios.get(
+        `https://rickandmortyapi.com/api/episode/${id}`
+      );
+      const resources: Episode | Episode[] = response.data;
+      dispatch(getCurrentEpisodesArraySuccess(resources));
+    } catch (error) {
+      dispatch(getError("No episodes find.Try again!"));
+    }
+  };
+}
+
+function getIdFromUrl(url: string[]): void {
+  let idArray: string[] = [];
+  url.forEach((el) => {
+    const array = el.split("/");
+    idArray.push(array[array.length - 1]);
+  });
+  dispatch(getEpisodesArrayById(idArray));
 }

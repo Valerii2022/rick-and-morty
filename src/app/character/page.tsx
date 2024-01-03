@@ -8,6 +8,27 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "../../redux/store";
 import { getCharacters } from "@/redux/slices/mainSlice";
 
+interface Character {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  image: string;
+  episode: string[];
+  url: string;
+  created: string;
+}
+
 export default function Character(): JSX.Element {
   const [filter, setFilter] = useState("");
   const [species, setSpecies] = useState("");
@@ -310,7 +331,7 @@ export default function Character(): JSX.Element {
             <h2>{error}</h2>
           </li>
         ) : (
-          characters.results.map((el: any) => {
+          characters.results.map((el: Character) => {
             return (
               <li key={el.id} className={styles.personItem}>
                 <Link href={`/character/${el.id}`}>

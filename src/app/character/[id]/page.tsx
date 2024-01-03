@@ -8,6 +8,16 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
+interface Episode {
+  id: number;
+  name: string;
+  air_date: string;
+  episode: string;
+  characters: string[];
+  url: string;
+  created: string;
+}
+
 export default function CharacterDetails({
   params,
 }: {
@@ -20,6 +30,11 @@ export default function CharacterDetails({
   useEffect(() => {
     dispatch(getCharacterById(params.id));
   }, [dispatch, params]);
+
+  const splittedLocation = current.character.location?.url.split("/");
+  const locationId = splittedLocation
+    ? splittedLocation[splittedLocation.length - 1]
+    : "";
 
   return (
     <div className="wrapper">
@@ -37,10 +52,14 @@ export default function CharacterDetails({
         <div>
           <div className={styles.imgWrapper}>
             <Image
-              src={current.character.image}
-              sizes="100vw,33vw"
+              src={
+                current.character.image
+                  ? current.character.image
+                  : "/default.jpg"
+              }
+              sizes="100vw, 33vw"
+              alt={current.character.name ? current.character.name : "Title"}
               fill
-              alt={current.character.image}
               priority={true}
             />
           </div>
@@ -74,21 +93,45 @@ export default function CharacterDetails({
                     <h3>Location</h3>
                     <p>{current.character.location?.name}</p>
                   </div>
-                  <Link href={`/location/2`}>
-                    <Image
-                      src="/arrow.svg"
-                      width={24}
-                      height={24}
-                      alt="Arrow icon"
-                      priority={true}
-                    />
-                  </Link>
+                  {locationId && (
+                    <Link href={`/location/${locationId}`}>
+                      <Image
+                        src="/arrow.svg"
+                        width={24}
+                        height={24}
+                        alt="Arrow icon"
+                        priority={true}
+                      />
+                    </Link>
+                  )}
                 </li>
               </ul>
             </li>
             <li>
               <h2 className={styles.subtitle}>Episodes</h2>
-              <u className={styles.episodesList}></u>
+              <ul className={styles.infoList}>
+                {current.episodes &&
+                  current.episodes.map((el: Episode) => {
+                    return (
+                      <li key={el.id} className={styles.redirectItem}>
+                        <div>
+                          <h3>{el.episode}</h3>
+                          <p>{el.name}</p>
+                          <p>{el.air_date}</p>
+                        </div>
+                        <Link href={`/episode/${el.id}`}>
+                          <Image
+                            src="/arrow.svg"
+                            width={24}
+                            height={24}
+                            alt="Arrow icon"
+                            priority={true}
+                          />
+                        </Link>
+                      </li>
+                    );
+                  })}
+              </ul>
             </li>
           </ul>
         </div>
