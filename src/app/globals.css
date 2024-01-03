@@ -68,6 +68,7 @@ ul {
   min-height: calc(100vh - 361px);
   margin-left: auto;
   margin-right: auto;
+  position: relative;
 }
 
 @media screen and (min-width: 401px) {

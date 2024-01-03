@@ -51,7 +51,12 @@ interface Info {
 
 interface Data {
   error: string;
-  current: { character: Character; location: Location; episode: Episode };
+  current: {
+    character: Character;
+    location: Location;
+    episode: Episode;
+    episodes: Episode[];
+  };
   characters: { info: Info; results: Character[] };
   locations: { info: Info; results: Location[] };
   episodes: { info: Info; results: Episode[] };
@@ -77,6 +82,7 @@ const initialState: Data = {
     character: <Character>{},
     location: <Location>{},
     episode: <Episode>{},
+    episodes: [],
   },
   characters: defaultInfo,
   locations: defaultInfo,
@@ -109,7 +115,11 @@ const characterSlice = createSlice({
       state.current.location = action.payload;
     },
     getCurrentEpisodeSuccess(state, action) {
-      state.current.episode = action.payload;
+      if (action.payload instanceof Array) {
+        state.current.episodes = action.payload;
+      } else {
+        state.current.episode = action.payload;
+      }
     },
   },
 });
@@ -214,13 +224,20 @@ export function getEpisodes(url: string | null | FilteredEpisodesData) {
   };
 }
 
-export function getEpisodeById(id: string) {
+export function getEpisodeById(id: string | string[]) {
+  let params: string;
+  if (typeof id === "string") {
+    params = id;
+  } else {
+    console.log(id);
+    params = "1";
+  }
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.get(
-        `https://rickandmortyapi.com/api/episode/${id}`
+        `https://rickandmortyapi.com/api/episode/${params}`
       );
-      const resources: Episode = response.data;
+      const resources: Episode | Episode[] = response.data;
       dispatch(getCurrentEpisodeSuccess(resources));
     } catch (error) {
       dispatch(getError("No episodes find.Try again!"));
