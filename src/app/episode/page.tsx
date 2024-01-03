@@ -76,7 +76,7 @@ export default function Episode(): JSX.Element {
           episodes.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.item}>
-                <Link href="/episode-details">
+                <Link href={`/episode/${el.id}`}>
                   <h2>{el.name}</h2>
                   <p>{el.air_date}</p>
                   <p>{el.episode}</p>

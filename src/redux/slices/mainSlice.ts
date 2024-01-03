@@ -51,6 +51,7 @@ interface Info {
 
 interface Data {
   error: string;
+  current: { character: Character; location: Location; episode: Episode };
   characters: { info: Info; results: Character[] };
   locations: { info: Info; results: Location[] };
   episodes: { info: Info; results: Episode[] };
@@ -72,6 +73,11 @@ const defaultInfo = {
 
 const initialState: Data = {
   error: "",
+  current: {
+    character: <Character>{},
+    location: <Location>{},
+    episode: <Episode>{},
+  },
   characters: defaultInfo,
   locations: defaultInfo,
   episodes: defaultInfo,
@@ -87,9 +93,6 @@ const characterSlice = createSlice({
     },
     getLocationsSuccess(state, action) {
       state.error = "";
-      if (action.payload as FilteredLocationData) {
-        state.locations.results = action.payload;
-      }
       state.locations = action.payload;
     },
     getEpisodesSuccess(state, action) {
@@ -99,6 +102,15 @@ const characterSlice = createSlice({
     getError(state, action) {
       state.error = action.payload;
     },
+    getCurrentCharacterSuccess(state, action) {
+      state.current.character = action.payload;
+    },
+    getCurrentLocationSuccess(state, action) {
+      state.current.location = action.payload;
+    },
+    getCurrentEpisodeSuccess(state, action) {
+      state.current.episode = action.payload;
+    },
   },
 });
 
@@ -107,6 +119,9 @@ export const {
   getLocationsSuccess,
   getEpisodesSuccess,
   getError,
+  getCurrentCharacterSuccess,
+  getCurrentLocationSuccess,
+  getCurrentEpisodeSuccess,
 } = characterSlice.actions;
 
 export default characterSlice.reducer;
@@ -125,6 +140,20 @@ export function getCharacters(url: string | null | FilteredCharacterData) {
       const response = await axios.get(URL);
       const resources: { info: Info; results: Character[] } = response.data;
       dispatch(getCharactersSuccess(resources));
+    } catch (error) {
+      dispatch(getError("No characters find.Try again!"));
+    }
+  };
+}
+
+export function getCharacterById(id: string) {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await axios.get(
+        `https://rickandmortyapi.com/api/character/${id}`
+      );
+      const resources: Character = response.data;
+      dispatch(getCurrentCharacterSuccess(resources));
     } catch (error) {
       dispatch(getError("No characters find.Try again!"));
     }
@@ -151,6 +180,20 @@ export function getLocations(url: string | null | FilteredLocationData) {
   };
 }
 
+export function getLocationById(id: string) {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await axios.get(
+        `https://rickandmortyapi.com/api/location/${id}`
+      );
+      const resources: Location = response.data;
+      dispatch(getCurrentLocationSuccess(resources));
+    } catch (error) {
+      dispatch(getError("No locations find.Try again!"));
+    }
+  };
+}
+
 export function getEpisodes(url: string | null | FilteredEpisodesData) {
   let URL = "";
   if (!url) {
@@ -167,6 +210,20 @@ export function getEpisodes(url: string | null | FilteredEpisodesData) {
       dispatch(getEpisodesSuccess(resources));
     } catch (error) {
       dispatch(getError("No episodes find. Try again!"));
+    }
+  };
+}
+
+export function getEpisodeById(id: string) {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await axios.get(
+        `https://rickandmortyapi.com/api/episode/${id}`
+      );
+      const resources: Episode = response.data;
+      dispatch(getCurrentEpisodeSuccess(resources));
+    } catch (error) {
+      dispatch(getError("No episodes find.Try again!"));
     }
   };
 }

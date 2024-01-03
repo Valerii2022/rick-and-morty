@@ -313,7 +313,7 @@ export default function Character(): JSX.Element {
           characters.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.personItem}>
-                <Link href="/character-details">
+                <Link href={`/character/${el.id}`}>
                   <Image
                     src={el.image}
                     width={240}

@@ -462,7 +462,7 @@ export default function Location(): JSX.Element {
           locations.results.map((el: any) => {
             return (
               <li key={el.id} className={styles.item}>
-                <Link href="/location-details">
+                <Link href={`/location/${el.id}`}>
                   <h2>{el.dimension}</h2>
                   <p>{el.name}</p>
                 </Link>
