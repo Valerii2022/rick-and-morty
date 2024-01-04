@@ -25,7 +25,7 @@ export default function CharacterDetails({
 }): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { current } = useSelector((state) => state.cards);
+  const { current, error } = useSelector((state) => state.cards);
 
   useEffect(() => {
     dispatch(getCharacterById(params.id));
@@ -48,7 +48,9 @@ export default function CharacterDetails({
         />
         <span>Go back</span>
       </button>
-      {current && (
+      {error ? (
+        <h2 className="error">{error}</h2>
+      ) : (
         <div>
           <div className={styles.imgWrapper}>
             <Image

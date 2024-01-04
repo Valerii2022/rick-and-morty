@@ -58,6 +58,7 @@ interface Data {
     location: Location;
     episode: Episode;
     episodes: Episode[];
+    characters: Character[];
   };
   characters: { info: Info; results: Character[] };
   locations: { info: Info; results: Location[] };
@@ -85,6 +86,7 @@ const initialState: Data = {
     location: <Location>{},
     episode: <Episode>{},
     episodes: [],
+    characters: [],
   },
   characters: defaultInfo,
   locations: defaultInfo,
@@ -111,19 +113,31 @@ const characterSlice = createSlice({
       state.error = action.payload;
     },
     getCurrentCharacterSuccess(state, action) {
+      state.error = "";
       state.current.character = action.payload;
     },
     getCurrentLocationSuccess(state, action) {
+      state.error = "";
       state.current.location = action.payload;
     },
     getCurrentEpisodeSuccess(state, action) {
+      state.error = "";
       state.current.episode = action.payload;
     },
     getCurrentEpisodesArraySuccess(state, action) {
+      state.error = "";
       if (action.payload instanceof Array) {
         state.current.episodes = action.payload;
       } else {
         state.current.episodes = [action.payload];
+      }
+    },
+    getCurrentCharactersArraySuccess(state, action) {
+      state.error = "";
+      if (action.payload instanceof Array) {
+        state.current.characters = action.payload;
+      } else {
+        state.current.characters = [action.payload];
       }
     },
   },
@@ -138,6 +152,7 @@ export const {
   getCurrentLocationSuccess,
   getCurrentEpisodeSuccess,
   getCurrentEpisodesArraySuccess,
+  getCurrentCharactersArraySuccess,
 } = characterSlice.actions;
 
 export default characterSlice.reducer;
@@ -170,7 +185,21 @@ export function getCharacterById(id: string) {
       );
       const resources: Character = response.data;
       dispatch(getCurrentCharacterSuccess(resources));
-      getIdFromUrl(resources.episode);
+      convertEpisodesUrl(resources.episode);
+    } catch (error) {
+      dispatch(getError("No characters find.Try again!"));
+    }
+  };
+}
+
+function getCharactersArrayById(id: string[]) {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await axios.get(
+        `https://rickandmortyapi.com/api/character/${id}`
+      );
+      const resources: Character | Character[] = response.data;
+      dispatch(getCurrentCharactersArraySuccess(resources));
     } catch (error) {
       dispatch(getError("No characters find.Try again!"));
     }
@@ -205,6 +234,7 @@ export function getLocationById(id: string) {
       );
       const resources: Location = response.data;
       dispatch(getCurrentLocationSuccess(resources));
+      convertCharactersUrl(resources.residents);
     } catch (error) {
       dispatch(getError("No locations find.Try again!"));
     }
@@ -259,11 +289,20 @@ function getEpisodesArrayById(id: string[]) {
   };
 }
 
-function getIdFromUrl(url: string[]): void {
+function convertEpisodesUrl(url: string[]): void {
   let idArray: string[] = [];
   url.forEach((el) => {
     const array = el.split("/");
     idArray.push(array[array.length - 1]);
   });
   dispatch(getEpisodesArrayById(idArray));
+}
+
+function convertCharactersUrl(url: string[]): void {
+  let idArray: string[] = [];
+  url.forEach((el) => {
+    const array = el.split("/");
+    idArray.push(array[array.length - 1]);
+  });
+  dispatch(getCharactersArrayById(idArray));
 }
