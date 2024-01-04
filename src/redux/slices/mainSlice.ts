@@ -267,8 +267,9 @@ export function getEpisodeById(id: string) {
       const response = await axios.get(
         `https://rickandmortyapi.com/api/episode/${id}`
       );
-      const resources: Episode | Episode[] = response.data;
+      const resources: Episode = response.data;
       dispatch(getCurrentEpisodeSuccess(resources));
+      convertCharactersUrl(resources.characters);
     } catch (error) {
       dispatch(getError("No episodes find.Try again!"));
     }
