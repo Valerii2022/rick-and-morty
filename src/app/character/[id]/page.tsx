@@ -7,16 +7,7 @@ import { getCharacterById } from "@/redux/slices/mainSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-
-interface Episode {
-  id: number;
-  name: string;
-  air_date: string;
-  episode: string;
-  characters: string[];
-  url: string;
-  created: string;
-}
+import { Episode } from "@/types/interfaces";
 
 export default function CharacterDetails({
   params,

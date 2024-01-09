@@ -7,27 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "../../redux/store";
 import { getCharacters } from "@/redux/slices/mainSlice";
-
-interface Character {
-  id: number;
-  name: string;
-  status: string;
-  species: string;
-  type: string;
-  gender: string;
-  origin: {
-    name: string;
-    url: string;
-  };
-  location: {
-    name: string;
-    url: string;
-  };
-  image: string;
-  episode: string[];
-  url: string;
-  created: string;
-}
+import { Character } from "@/types/interfaces";
 
 export default function Character(): JSX.Element {
   const [filter, setFilter] = useState("");

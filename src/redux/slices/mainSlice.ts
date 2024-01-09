@@ -1,78 +1,12 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import axios from "axios";
 import { dispatch } from "../store";
-import { act } from "react-dom/test-utils";
-
-interface Character {
-  id: number;
-  name: string;
-  status: string;
-  species: string;
-  type: string;
-  gender: string;
-  origin: {
-    name: string;
-    url: string;
-  };
-  location: {
-    name: string;
-    url: string;
-  };
-  image: string;
-  episode: string[];
-  url: string;
-  created: string;
-}
-
-interface Location {
-  id: number;
-  name: string;
-  type: string;
-  dimension: string;
-  residents: string[];
-  url: string;
-  created: string;
-}
-
-interface Episode {
-  id: number;
-  name: string;
-  air_date: string;
-  episode: string;
-  characters: string[];
-  url: string;
-  created: string;
-}
-
-interface Info {
-  count: number;
-  pages: number;
-  next: string;
-  prev: null | string;
-}
-
-interface Data {
-  error: string;
-  current: {
-    character: Character;
-    location: Location;
-    episode: Episode;
-    episodes: Episode[];
-    characters: Character[];
-  };
-  characters: { info: Info; results: Character[] };
-  locations: { info: Info; results: Location[] };
-  episodes: { info: Info; results: Episode[] };
-}
-
-type FilteredLocationData = { name: string; type: string; dimension: string };
-type FilteredEpisodesData = { name: string };
-type FilteredCharacterData = {
-  name: string;
-  species: string;
-  gender: string;
-  status: string;
-};
+import { Character, Data, Episode, Info, Location } from "@/types/interfaces";
+import {
+  FilteredCharacterData,
+  FilteredEpisodesData,
+  FilteredLocationData,
+} from "@/types/types";
 
 const defaultInfo = {
   info: { count: 0, pages: 0, next: "", prev: "" },

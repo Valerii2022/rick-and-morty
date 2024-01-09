@@ -7,27 +7,7 @@ import { getEpisodeById } from "@/redux/slices/mainSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-
-interface Character {
-  id: number;
-  name: string;
-  status: string;
-  species: string;
-  type: string;
-  gender: string;
-  origin: {
-    name: string;
-    url: string;
-  };
-  location: {
-    name: string;
-    url: string;
-  };
-  image: string;
-  episode: string[];
-  url: string;
-  created: string;
-}
+import { Character } from "@/types/interfaces";
 
 export default function EpisodeDetails({
   params,
