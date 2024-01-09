@@ -3,11 +3,11 @@
 import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
-
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "../../redux/store";
 import { getCharacters } from "@/redux/slices/mainSlice";
-import { Character } from "@/types/interfaces";
+import { Character, Data } from "@/types/interfaces";
+import { genderValue, speciesValue, statusValue } from "./options-value";
 
 export default function Character(): JSX.Element {
   const [filter, setFilter] = useState("");
@@ -16,18 +16,23 @@ export default function Character(): JSX.Element {
   const [status, setStatus] = useState("");
   const [mobileFilter, setMobileFilter] = useState(false);
   const dispatch = useDispatch();
-  const { characters, error } = useSelector((state) => state.cards);
+  const { characters, error } = useSelector(
+    (state: { cards: Data }) => state.cards
+  );
 
+  // getting Characters from API
   useEffect(() => {
     dispatch(getCharacters(null));
   }, [dispatch]);
 
+  // closing modal window by backdrop click
   function handleBackdropClick(e: React.MouseEvent<HTMLDivElement>) {
     if (e.target === e.currentTarget) {
       setMobileFilter(false);
     }
   }
 
+  // getting filtered Characters from API
   function handleFiltersApply(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     let status = "";
@@ -52,12 +57,87 @@ export default function Character(): JSX.Element {
     setMobileFilter(false);
   }
 
+  // getting filtered Characters by species from API
+  function handleSpeciesSelectChange(e: string) {
+    if (e === "Species") {
+      setSpecies("");
+      dispatch(
+        getCharacters({
+          name: filter,
+          status: status,
+          species: "",
+          gender: gender,
+        })
+      );
+    } else {
+      setSpecies(e);
+      dispatch(
+        getCharacters({
+          name: filter,
+          status: status,
+          species: e,
+          gender: gender,
+        })
+      );
+    }
+  }
+
+  // getting filtered Characters by gender from API
+  function handleGenderSelectChange(e: string) {
+    if (e === "Gender") {
+      setGender("");
+      dispatch(
+        getCharacters({
+          name: filter,
+          status: status,
+          species: species,
+          gender: "",
+        })
+      );
+    } else {
+      setGender(e);
+      dispatch(
+        getCharacters({
+          name: filter,
+          status: status,
+          gender: e,
+          species: species,
+        })
+      );
+    }
+  }
+
+  // getting filtered Characters by status from API
+  function handleStatusSelectChange(e: string) {
+    if (e === "Status") {
+      setStatus("");
+      dispatch(
+        getCharacters({
+          name: filter,
+          status: "",
+          species: species,
+          gender: gender,
+        })
+      );
+    } else {
+      setStatus(e);
+      dispatch(
+        getCharacters({
+          name: filter,
+          status: e,
+          species: species,
+          gender: gender,
+        })
+      );
+    }
+  }
+
   return (
     <div className="wrapper">
       <div className={styles.inner}>
         <Image
           src="/logo.png"
-          sizes="100vw, 33vw"
+          sizes="(max-width: 1440px) 100vw, 33vw"
           alt="Rick and Morty logo"
           fill
           priority={true}
@@ -110,41 +190,17 @@ export default function Character(): JSX.Element {
                 name="species"
                 id="species"
                 onChange={(e) => {
-                  if (e.target.value === "Species") {
-                    setSpecies("");
-                    dispatch(
-                      getCharacters({
-                        name: filter,
-                        status: status,
-                        species: "",
-                        gender: gender,
-                      })
-                    );
-                  } else {
-                    setSpecies(e.target.value);
-                    dispatch(
-                      getCharacters({
-                        name: filter,
-                        status: status,
-                        species: e.target.value,
-                        gender: gender,
-                      })
-                    );
-                  }
+                  handleSpeciesSelectChange(e.target.value);
                 }}
               >
                 <option defaultValue="Species">Species</option>
-                <option value="Alien">Alien</option>
-                <option value="Animal">Animal</option>
-                <option value="Cronenberg">Cronenberg</option>
-                <option value="Human">Human</option>
-                <option value="Humanoid">Humanoid</option>
-                <option value="Mythological Creature">
-                  Mythological Creature
-                </option>
-                <option value="Poopybutthole">Poopybutthole</option>
-                <option value="Robot">Robot</option>
-                <option value="Unknown">Unknown</option>
+                {speciesValue.map((el: string) => {
+                  return (
+                    <option key={el} value={el}>
+                      {el}
+                    </option>
+                  );
+                })}
               </select>
             </label>
           </li>
@@ -154,34 +210,17 @@ export default function Character(): JSX.Element {
                 name="gender"
                 id="gender"
                 onChange={(e) => {
-                  if (e.target.value === "Gender") {
-                    setGender("");
-                    dispatch(
-                      getCharacters({
-                        name: filter,
-                        status: status,
-                        species: species,
-                        gender: "",
-                      })
-                    );
-                  } else {
-                    setGender(e.target.value);
-                    dispatch(
-                      getCharacters({
-                        name: filter,
-                        status: status,
-                        gender: e.target.value,
-                        species: species,
-                      })
-                    );
-                  }
+                  handleGenderSelectChange(e.target.value);
                 }}
               >
                 <option defaultValue="Gender">Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Genderless">Genderless</option>
-                <option value="Unknown">Unknown</option>
+                {genderValue.map((el: string) => {
+                  return (
+                    <option key={el} value={el}>
+                      {el}
+                    </option>
+                  );
+                })}
               </select>
             </label>
           </li>
@@ -191,33 +230,17 @@ export default function Character(): JSX.Element {
                 name="status"
                 id="status"
                 onChange={(e) => {
-                  if (e.target.value === "Status") {
-                    setStatus("");
-                    dispatch(
-                      getCharacters({
-                        name: filter,
-                        status: "",
-                        species: species,
-                        gender: gender,
-                      })
-                    );
-                  } else {
-                    setStatus(e.target.value);
-                    dispatch(
-                      getCharacters({
-                        name: filter,
-                        status: e.target.value,
-                        species: species,
-                        gender: gender,
-                      })
-                    );
-                  }
+                  handleStatusSelectChange(e.target.value);
                 }}
               >
                 <option defaultValue="Status">Status</option>
-                <option value="Alive">Alive</option>
-                <option value="Dead">Dead</option>
-                <option value="Unknown">Unknown</option>
+                {statusValue.map((el: string) => {
+                  return (
+                    <option key={el} value={el}>
+                      {el}
+                    </option>
+                  );
+                })}
               </select>
             </label>
           </li>
@@ -262,17 +285,13 @@ export default function Character(): JSX.Element {
                       <label htmlFor="species">
                         <select name="species" id="species">
                           <option defaultValue="Species">Species</option>
-                          <option value="Alien">Alien</option>
-                          <option value="Animal">Animal</option>
-                          <option value="Cronenberg">Cronenberg</option>
-                          <option value="Human">Human</option>
-                          <option value="Humanoid">Humanoid</option>
-                          <option value="Mythological Creature">
-                            Mythological Creature
-                          </option>
-                          <option value="Poopybutthole">Poopybutthole</option>
-                          <option value="Robot">Robot</option>
-                          <option value="Unknown">Unknown</option>
+                          {speciesValue.map((el: string) => {
+                            return (
+                              <option key={el} value={el}>
+                                {el}
+                              </option>
+                            );
+                          })}
                         </select>
                       </label>
                     </li>
@@ -280,10 +299,13 @@ export default function Character(): JSX.Element {
                       <label htmlFor="gender">
                         <select name="gender" id="gender">
                           <option defaultValue="Gender">Gender</option>
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
-                          <option value="Genderless">Genderless</option>
-                          <option value="Unknown">Unknown</option>
+                          {genderValue.map((el: string) => {
+                            return (
+                              <option key={el} value={el}>
+                                {el}
+                              </option>
+                            );
+                          })}
                         </select>
                       </label>
                     </li>
@@ -291,9 +313,13 @@ export default function Character(): JSX.Element {
                       <label htmlFor="status">
                         <select name="status" id="status">
                           <option defaultValue="Status">Status</option>
-                          <option value="Alive">Alive</option>
-                          <option value="Dead">Dead</option>
-                          <option value="Unknown">Unknown</option>
+                          {statusValue.map((el: string) => {
+                            return (
+                              <option key={el} value={el}>
+                                {el}
+                              </option>
+                            );
+                          })}
                         </select>
                       </label>
                     </li>
@@ -343,7 +369,6 @@ export default function Character(): JSX.Element {
             Prev
           </button>
         )}
-
         {characters.info.next && (
           <button
             onClick={() => {

@@ -40,6 +40,16 @@ ul {
   list-style: none;
 }
 
+select {
+  cursor: pointer;
+  font: inherit;
+}
+
+option {
+  color: var(--main-color);
+  background-color: var(--main-bg-color);
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

@@ -23,7 +23,7 @@ export default function Episode(): JSX.Element {
         <Image
           src="/episode.png"
           fill
-          sizes="100vw, 33vw"
+          sizes="(max-width: 1440px) 100vw, 33vw"
           alt="Episode Page logo"
           priority={true}
         />

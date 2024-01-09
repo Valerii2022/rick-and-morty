@@ -1,4 +1,5 @@
 .backBtn {
+  color: var(--main-color);
   border: none;
   outline: none;
   background-color: transparent;
@@ -9,7 +10,14 @@
   font-size: 18px;
   text-transform: uppercase;
   cursor: pointer;
+  transition: transform var(--transition);
 }
+
+.backBtn:hover,
+.backBtn:focus {
+  transform: scale(1.1);
+}
+
 
 .imgWrapper {
   width: 148px;

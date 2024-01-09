@@ -8,7 +8,7 @@ export default function Home(): JSX.Element {
         <div className={styles.imageWrapper}>
           <Image
             src="/logo.png"
-            sizes="100vw, 33vw"
+            sizes="(max-width: 1440px) 100vw, 33vw"
             fill
             alt="Rick and Morty logo"
             priority={true}

@@ -25,6 +25,7 @@
 .mobileFilter .inputLabel {
   background-color: rgba(0, 128, 128, 0.2);
 }
+
 .mobileFilter p {
   flex-grow: 1;
   text-align: center;
@@ -83,6 +84,7 @@
   padding: 0 14px;
   border: 1px solid var(--main-color);
 }
+
 .inputLabel,
 .inputItem label {
   display: flex;
@@ -180,6 +182,7 @@
 }
 
 @media screen and (max-width: 767px) {
+
   .mobileFilter,
   .filter {
     margin-left: 32px;

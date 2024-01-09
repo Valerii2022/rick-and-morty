@@ -46,7 +46,7 @@ export default function Location(): JSX.Element {
       <div className={styles.inner}>
         <Image
           src="/locations.png"
-          sizes="100vw, 33vw"
+          sizes="(max-width: 1440px) 100vw, 33vw"
           fill
           alt="Locations Page logo"
           priority={true}

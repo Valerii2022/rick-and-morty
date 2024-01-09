@@ -7,7 +7,7 @@ import { getCharacterById } from "@/redux/slices/mainSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Episode } from "@/types/interfaces";
+import { Data, Episode } from "@/types/interfaces";
 
 export default function CharacterDetails({
   params,
@@ -16,14 +16,18 @@ export default function CharacterDetails({
 }): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { current, error } = useSelector((state) => state.cards);
+  const { current, error } = useSelector(
+    (state: { cards: Data }) => state.cards
+  );
 
+  // getting Characters from API
   useEffect(() => {
     dispatch(getCharacterById(params.id));
   }, [dispatch, params]);
 
-  const splittedLocation = current.character.location?.url.split("/");
-  const locationId = splittedLocation
+  // getting location id
+  const splittedLocation: string[] = current.character.location?.url.split("/");
+  const locationId: string = splittedLocation
     ? splittedLocation[splittedLocation.length - 1]
     : "";
 
@@ -50,7 +54,7 @@ export default function CharacterDetails({
                   ? current.character.image
                   : "/default.jpg"
               }
-              sizes="100vw, 33vw"
+              sizes="(max-width: 1440px) 100vw, 33vw"
               alt={current.character.name ? current.character.name : "Title"}
               fill
               priority={true}
