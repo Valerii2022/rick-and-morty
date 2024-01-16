@@ -11,9 +11,9 @@ export const speciesValue: string[] = [
 ];
 
 export const genderValue: string[] = [
-  "Male",
   "Female",
   "Genderless",
+  "Male",
   "Unknown",
 ];
 

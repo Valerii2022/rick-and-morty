@@ -13,6 +13,7 @@ export default function Episode(): JSX.Element {
   const dispatch = useDispatch();
   const { episodes, error } = useSelector((state) => state.cards);
 
+  // getting Episodes from API
   useEffect(() => {
     dispatch(getEpisodes(null));
   }, [dispatch]);
