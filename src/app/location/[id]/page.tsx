@@ -7,7 +7,7 @@ import { getLocationById } from "@/redux/slices/mainSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Character } from "@/types/interfaces";
+import { Character, Data } from "@/types/interfaces";
 
 export default function CharacterDetails({
   params,
@@ -16,8 +16,11 @@ export default function CharacterDetails({
 }): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { current, error } = useSelector((state) => state.cards);
+  const { current, error } = useSelector(
+    (state: { cards: Data }) => state.cards
+  );
 
+  // getting Locations from API
   useEffect(() => {
     dispatch(getLocationById(params.id));
   }, [dispatch, params]);

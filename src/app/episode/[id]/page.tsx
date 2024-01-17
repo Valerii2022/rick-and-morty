@@ -7,7 +7,7 @@ import { getEpisodeById } from "@/redux/slices/mainSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Character } from "@/types/interfaces";
+import { Character, Data } from "@/types/interfaces";
 
 export default function EpisodeDetails({
   params,
@@ -16,8 +16,11 @@ export default function EpisodeDetails({
 }): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { current, error } = useSelector((state) => state.cards);
+  const { current, error } = useSelector(
+    (state: { cards: Data }) => state.cards
+  );
 
+  // getting Episodes from API
   useEffect(() => {
     dispatch(getEpisodeById(params.id));
   }, [dispatch, params]);

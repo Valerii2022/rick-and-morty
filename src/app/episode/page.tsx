@@ -7,11 +7,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "../../redux/store";
 import { getEpisodes } from "@/redux/slices/mainSlice";
+import { Data } from "@/types/interfaces";
 
 export default function Episode(): JSX.Element {
   const [filter, setFilter] = useState("");
   const dispatch = useDispatch();
-  const { episodes, error } = useSelector((state) => state.cards);
+  const { episodes, error } = useSelector(
+    (state: { cards: Data }) => state.cards
+  );
 
   // getting Episodes from API
   useEffect(() => {

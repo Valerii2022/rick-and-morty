@@ -194,9 +194,9 @@ export default function Character(): JSX.Element {
                 }}
               >
                 <option defaultValue="Species">Species</option>
-                {speciesValue.map((el: string) => {
+                {speciesValue.map((el: string, index: number) => {
                   return (
-                    <option key={el} value={el}>
+                    <option key={index} value={el}>
                       {el}
                     </option>
                   );
@@ -214,9 +214,9 @@ export default function Character(): JSX.Element {
                 }}
               >
                 <option defaultValue="Gender">Gender</option>
-                {genderValue.map((el: string) => {
+                {genderValue.map((el: string, index: number) => {
                   return (
-                    <option key={el} value={el}>
+                    <option key={index} value={el}>
                       {el}
                     </option>
                   );
@@ -234,9 +234,9 @@ export default function Character(): JSX.Element {
                 }}
               >
                 <option defaultValue="Status">Status</option>
-                {statusValue.map((el: string) => {
+                {statusValue.map((el: string, index: number) => {
                   return (
-                    <option key={el} value={el}>
+                    <option key={index} value={el}>
                       {el}
                     </option>
                   );
@@ -285,9 +285,9 @@ export default function Character(): JSX.Element {
                       <label htmlFor="species">
                         <select name="species" id="species">
                           <option defaultValue="Species">Species</option>
-                          {speciesValue.map((el: string) => {
+                          {speciesValue.map((el: string, index: number) => {
                             return (
-                              <option key={el} value={el}>
+                              <option key={index} value={el}>
                                 {el}
                               </option>
                             );
@@ -299,9 +299,9 @@ export default function Character(): JSX.Element {
                       <label htmlFor="gender">
                         <select name="gender" id="gender">
                           <option defaultValue="Gender">Gender</option>
-                          {genderValue.map((el: string) => {
+                          {genderValue.map((el: string, index: number) => {
                             return (
-                              <option key={el} value={el}>
+                              <option key={index} value={el}>
                                 {el}
                               </option>
                             );
@@ -313,9 +313,9 @@ export default function Character(): JSX.Element {
                       <label htmlFor="status">
                         <select name="status" id="status">
                           <option defaultValue="Status">Status</option>
-                          {statusValue.map((el: string) => {
+                          {statusValue.map((el: string, index: number) => {
                             return (
-                              <option key={el} value={el}>
+                              <option key={index} value={el}>
                                 {el}
                               </option>
                             );
