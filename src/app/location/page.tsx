@@ -268,29 +268,31 @@ export default function Location(): JSX.Element {
           })
         )}
       </ul>
-      <div className={styles.btnWrapper}>
-        {locations.info.prev && (
-          <button
-            onClick={() => {
-              dispatch(getLocations(locations.info.prev));
-            }}
-            className={`${styles.loadMoreBtn} ${styles.prevBtn}`}
-          >
-            Prev
-          </button>
-        )}
+      {!error && (
+        <div className={styles.btnWrapper}>
+          {locations.info.prev && (
+            <button
+              onClick={() => {
+                dispatch(getLocations(locations.info.prev));
+              }}
+              className={`${styles.loadMoreBtn} ${styles.prevBtn}`}
+            >
+              Prev
+            </button>
+          )}
 
-        {locations.info.next && (
-          <button
-            onClick={() => {
-              dispatch(getLocations(locations.info.next));
-            }}
-            className={`${styles.loadMoreBtn} ${styles.nextBtn}`}
-          >
-            Next
-          </button>
-        )}
-      </div>
+          {locations.info.next && (
+            <button
+              onClick={() => {
+                dispatch(getLocations(locations.info.next));
+              }}
+              className={`${styles.loadMoreBtn} ${styles.nextBtn}`}
+            >
+              Next
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

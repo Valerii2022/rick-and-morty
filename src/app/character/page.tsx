@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "../../redux/store";
 import { getCharacters } from "@/redux/slices/mainSlice";
 import { Character, Data } from "@/types/interfaces";
 import { genderValue, speciesValue, statusValue } from "./options-value";
+import { dimensionsValue } from "../location/options-value";
 
 export default function Character(): JSX.Element {
   const [filter, setFilter] = useState("");
@@ -358,28 +359,30 @@ export default function Character(): JSX.Element {
           })
         )}
       </ul>
-      <div className={styles.btnWrapper}>
-        {characters.info.prev && (
-          <button
-            onClick={() => {
-              dispatch(getCharacters(characters.info.prev));
-            }}
-            className={`${styles.loadMoreBtn} ${styles.prevBtn}`}
-          >
-            Prev
-          </button>
-        )}
-        {characters.info.next && (
-          <button
-            onClick={() => {
-              dispatch(getCharacters(characters.info.next));
-            }}
-            className={`${styles.loadMoreBtn} ${styles.nextBtn}`}
-          >
-            Next
-          </button>
-        )}
-      </div>
+      {!error && (
+        <div className={styles.btnWrapper}>
+          {characters.info.prev && (
+            <button
+              onClick={() => {
+                dispatch(getCharacters(characters.info.prev));
+              }}
+              className={`${styles.loadMoreBtn} ${styles.prevBtn}`}
+            >
+              Prev
+            </button>
+          )}
+          {characters.info.next && (
+            <button
+              onClick={() => {
+                dispatch(getCharacters(characters.info.next));
+              }}
+              className={`${styles.loadMoreBtn} ${styles.nextBtn}`}
+            >
+              Next
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

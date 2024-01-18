@@ -90,29 +90,31 @@ export default function Episode(): JSX.Element {
           })
         )}
       </ul>
-      <div className={styles.btnWrapper}>
-        {episodes.info.prev && (
-          <button
-            onClick={() => {
-              dispatch(getEpisodes(episodes.info.prev));
-            }}
-            className={`${styles.loadMoreBtn} ${styles.prevBtn}`}
-          >
-            Prev
-          </button>
-        )}
+      {!error && (
+        <div className={styles.btnWrapper}>
+          {episodes.info.prev && (
+            <button
+              onClick={() => {
+                dispatch(getEpisodes(episodes.info.prev));
+              }}
+              className={`${styles.loadMoreBtn} ${styles.prevBtn}`}
+            >
+              Prev
+            </button>
+          )}
 
-        {episodes.info.next && (
-          <button
-            onClick={() => {
-              dispatch(getEpisodes(episodes.info.next));
-            }}
-            className={`${styles.loadMoreBtn} ${styles.nextBtn}`}
-          >
-            Next
-          </button>
-        )}
-      </div>
+          {episodes.info.next && (
+            <button
+              onClick={() => {
+                dispatch(getEpisodes(episodes.info.next));
+              }}
+              className={`${styles.loadMoreBtn} ${styles.nextBtn}`}
+            >
+              Next
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
